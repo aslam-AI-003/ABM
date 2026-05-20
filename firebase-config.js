@@ -22,13 +22,15 @@ const FireDB = {
     // Get all menu items
     async getMenuItems() {
         try {
-            const snapshot = await db.collection('menuItems').orderBy('id').get();
+            const snapshot = await db.collection('menuItems').get();
             if (snapshot.empty) {
                 // Initialize with default menu items if empty
                 await this.initializeDefaultMenu();
                 return this.getMenuItems();
             }
-            return snapshot.docs.map(doc => doc.data());
+            const items = snapshot.docs.map(doc => doc.data());
+            items.sort((a, b) => a.id - b.id);
+            return items;
         } catch (error) {
             console.error('Error getting menu items:', error);
             // Fallback to localStorage
@@ -105,8 +107,11 @@ const FireDB = {
     // --- SALES ---
     async getSales() {
         try {
-            const snapshot = await db.collection('sales').orderBy('date', 'desc').get();
-            return snapshot.docs.map(doc => doc.data());
+            const snapshot = await db.collection('sales').get();
+            const sales = snapshot.docs.map(doc => doc.data());
+            // Sort by date descending
+            sales.sort((a, b) => new Date(b.date) - new Date(a.date));
+            return sales;
         } catch (error) {
             console.error('Error getting sales:', error);
             return JSON.parse(localStorage.getItem('sales')) || [];
@@ -126,8 +131,11 @@ const FireDB = {
     // --- EXPENSES ---
     async getExpenses() {
         try {
-            const snapshot = await db.collection('expenses').orderBy('createdAt', 'desc').get();
-            return snapshot.docs.map(doc => doc.data());
+            const snapshot = await db.collection('expenses').get();
+            const expenses = snapshot.docs.map(doc => doc.data());
+            // Sort by createdAt descending
+            expenses.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
+            return expenses;
         } catch (error) {
             console.error('Error getting expenses:', error);
             return JSON.parse(localStorage.getItem('expenses')) || [];
