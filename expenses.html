@@ -19,6 +19,7 @@
             <a href="admin.html"><i class="fas fa-cog"></i> Menu</a>
             <a href="reports.html"><i class="fas fa-chart-bar"></i> Sales</a>
             <a href="expenses.html" class="active"><i class="fas fa-wallet"></i> Expenses</a>
+            <a href="#" onclick="ABMAuth.logout()" class="logout-link"><i class="fas fa-sign-out-alt"></i> Logout</a>
         </nav>
     </header>
 
@@ -133,6 +134,8 @@
         <span id="toastMessage">Action completed</span>
     </div>
 
+    <script src="auth.js"></script>
+    <script>if (!ABMAuth.isLoggedIn()) window.location.href = 'login.html';</script>
     <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore-compat.js"></script>
     <script src="firebase-config.js"></script>
