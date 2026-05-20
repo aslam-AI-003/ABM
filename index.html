@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Arabian Bismi Mandi - Restaurant Billing</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <header>
+        <div class="logo">
+            <img src="images/ABM_logo.jpg" alt="Arabian Bismi Mandi Logo" class="logo-img">
+            <h1>Arabian Bismi Mandi</h1>
+        </div>
+        <nav>
+            <a href="index.html" class="active"><i class="fas fa-home"></i> Order</a>
+            <a href="admin.html"><i class="fas fa-cog"></i> Menu</a>
+            <a href="reports.html"><i class="fas fa-chart-bar"></i> Sales</a>
+            <a href="expenses.html"><i class="fas fa-wallet"></i> Expenses</a>
+        </nav>
+    </header>
+
+    <main>
+        <section class="menu-section">
+            <h2><i class="fas fa-bowl-food"></i> Our Menu</h2>
+            <div class="menu-grid" id="menuGrid">
+                <!-- Menu items will be loaded dynamically -->
+            </div>
+        </section>
+
+        <aside class="cart-section">
+            <div class="cart-header">
+                <h2><i class="fas fa-shopping-cart"></i> Your Cart</h2>
+                <button class="clear-cart-btn" id="clearCartBtn">
+                    <i class="fas fa-trash"></i> Clear Cart
+                </button>
+            </div>
+            <div class="cart-items" id="cartItems">
+                <p class="empty-cart">Your cart is empty</p>
+            </div>
+            <div class="cart-total">
+                <span>Total:</span>
+                <span id="cartTotal">₹0</span>
+            </div>
+            <div class="cart-actions">
+                <button class="print-btn" id="printBillBtn">
+                    <i class="fas fa-print"></i> Print Bill
+                </button>
+                <button class="pay-btn" id="payNowBtn">
+                    <i class="fas fa-credit-card"></i> Pay Now
+                </button>
+            </div>
+        </aside>
+    </main>
+
+    <!-- Payment Modal - Choose Method -->
+    <div class="modal" id="paymentModal">
+        <div class="modal-content">
+            <span class="close-modal" id="closePaymentModal">&times;</span>
+            <h2><i class="fas fa-credit-card"></i> Choose Payment Method</h2>
+            <p class="payment-amount">Amount: <strong id="paymentAmount">₹0</strong></p>
+            <div class="payment-options">
+                <button class="payment-option-btn cash-option" id="cashOptionBtn">
+                    <i class="fas fa-money-bill-wave"></i>
+                    <span>Cash Payment</span>
+                </button>
+                <button class="payment-option-btn qr-option" id="qrOptionBtn">
+                    <i class="fas fa-qrcode"></i>
+                    <span>QR Code / UPI</span>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- QR Code Payment Modal -->
+    <div class="modal" id="qrPaymentModal">
+        <div class="modal-content">
+            <span class="close-modal" id="closeQrModal">&times;</span>
+            <h2><i class="fas fa-qrcode"></i> Scan to Pay</h2>
+            <div class="qr-code">
+                <img src="images/AccountQRCodeFederal Bank - 7635_DARK_THEME.png" alt="Payment QR Code" style="width: 220px; height: auto; border-radius: 10px;">
+            </div>
+            <p class="payment-amount">Amount: <strong id="qrPaymentAmount">₹0</strong></p>
+            <p class="payment-info">Scan the QR code with any UPI app to complete payment</p>
+            <button class="confirm-payment-btn" id="confirmQrPaymentBtn">
+                <i class="fas fa-check-circle"></i> Payment Done
+            </button>
+        </div>
+    </div>
+
+    <!-- Cash Payment Modal -->
+    <div class="modal" id="cashPaymentModal">
+        <div class="modal-content">
+            <span class="close-modal" id="closeCashModal">&times;</span>
+            <h2><i class="fas fa-money-bill-wave"></i> Cash Payment</h2>
+            <p class="payment-amount">Amount to Collect: <strong id="cashPaymentAmount">₹0</strong></p>
+            <p class="payment-info">Collect cash from the customer and confirm</p>
+            <button class="confirm-payment-btn" id="confirmCashPaymentBtn">
+                <i class="fas fa-check-circle"></i> Cash Received
+            </button>
+        </div>
+    </div>
+
+    <!-- Print Bill Template (Hidden) -->
+    <div id="printBill" class="print-only">
+        <div class="bill-header">
+            <h1>🍽️ ARABIAN BISMI MANDI</h1>
+            <p>Taste The Arabian Tradition</p>
+            <p>M.A.N Mega Mart, Ayyampettai</p>
+            <p>Phone: 9894092449, 9025499668</p>
+            <hr>
+        </div>
+        <div class="bill-info">
+            <p>Bill No: <span id="billNo"></span></p>
+            <p>Date: <span id="billDate"></span></p>
+            <p>Time: <span id="billTime"></span></p>
+            <hr>
+        </div>
+        <div class="bill-items" id="billItems">
+            <!-- Bill items will be inserted here -->
+        </div>
+        <div class="bill-total">
+            <hr>
+            <p><strong>Total: <span id="billTotal"></span></strong></p>
+            <hr>
+        </div>
+        <div class="bill-footer">
+            <p>Thank you for dining with us!</p>
+            <p>Visit Again!</p>
+        </div>
+    </div>
+
+    <!-- Toast Notification -->
+    <div class="toast" id="toast">
+        <i class="fas fa-check-circle"></i>
+        <span id="toastMessage">Item added to cart</span>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/qrcode@1.5.3/build/qrcode.min.js"></script>
+    <script src="app.js"></script>
+</body>
+</html>

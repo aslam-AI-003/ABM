@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Manage Menu - Arabian Bismi Mandi</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <header>
+        <div class="logo">
+            <img src="images/ABM_logo.jpg" alt="Arabian Bismi Mandi Logo" class="logo-img">
+            <h1>Arabian Bismi Mandi</h1>
+        </div>
+        <nav>
+            <a href="index.html"><i class="fas fa-home"></i> Order</a>
+            <a href="admin.html" class="active"><i class="fas fa-cog"></i> Menu</a>
+            <a href="reports.html"><i class="fas fa-chart-bar"></i> Sales</a>
+            <a href="expenses.html"><i class="fas fa-wallet"></i> Expenses</a>
+        </nav>
+    </header>
+
+    <main class="admin-main">
+        <section class="admin-section">
+            <div class="admin-header">
+                <h2><i class="fas fa-edit"></i> Manage Menu Items</h2>
+                <button class="add-item-btn" id="addItemBtn">
+                    <i class="fas fa-plus"></i> Add New Item
+                </button>
+            </div>
+
+            <div class="menu-table-container">
+                <table class="menu-table">
+                    <thead>
+                        <tr>
+                            <th>Image</th>
+                            <th>Name</th>
+                            <th>Category</th>
+                            <th>Size</th>
+                            <th>Price (₹)</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody id="menuTableBody">
+                        <!-- Menu items will be loaded here -->
+                    </tbody>
+                </table>
+            </div>
+        </section>
+    </main>
+
+    <!-- Add/Edit Item Modal -->
+    <div class="modal" id="itemModal">
+        <div class="modal-content modal-form">
+            <span class="close-modal" id="closeItemModal">&times;</span>
+            <h2 id="modalTitle"><i class="fas fa-plus-circle"></i> Add Menu Item</h2>
+            <form id="itemForm">
+                <input type="hidden" id="itemId">
+                <div class="form-group">
+                    <label for="itemName"><i class="fas fa-tag"></i> Item Name</label>
+                    <input type="text" id="itemName" required placeholder="e.g., Chicken Mandi">
+                </div>
+                <div class="form-group">
+                    <label for="itemCategory"><i class="fas fa-list"></i> Category</label>
+                    <select id="itemCategory" required>
+                        <option value="">Select Category</option>
+                        <option value="Chicken">Chicken</option>
+                        <option value="Mutton">Mutton</option>
+                        <option value="Beef">Beef</option>
+                        <option value="Drinks">Drinks</option>
+                        <option value="Desserts">Desserts</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="itemSize"><i class="fas fa-ruler"></i> Size/Portion</label>
+                    <select id="itemSize" required>
+                        <option value="">Select Size</option>
+                        <option value="Full">Full</option>
+                        <option value="Half">Half</option>
+                        <option value="Single">Single</option>
+                        <option value="Regular">Regular</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="itemPrice"><i class="fas fa-rupee-sign"></i> Price</label>
+                    <input type="number" id="itemPrice" required placeholder="e.g., 1100" min="1">
+                </div>
+                <div class="form-group">
+                    <label for="itemImage"><i class="fas fa-image"></i> Image URL</label>
+                    <input type="url" id="itemImage" required placeholder="https://example.com/image.jpg">
+                </div>
+                <div class="form-actions">
+                    <button type="button" class="cancel-btn" id="cancelItemBtn">
+                        <i class="fas fa-times"></i> Cancel
+                    </button>
+                    <button type="submit" class="save-btn">
+                        <i class="fas fa-save"></i> Save Item
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Delete Confirmation Modal -->
+    <div class="modal" id="deleteModal">
+        <div class="modal-content modal-confirm">
+            <h2><i class="fas fa-exclamation-triangle"></i> Confirm Delete</h2>
+            <p>Are you sure you want to delete this menu item?</p>
+            <p class="delete-item-name" id="deleteItemName"></p>
+            <div class="modal-actions">
+                <button class="cancel-btn" id="cancelDeleteBtn">
+                    <i class="fas fa-times"></i> Cancel
+                </button>
+                <button class="delete-btn" id="confirmDeleteBtn">
+                    <i class="fas fa-trash"></i> Delete
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Toast Notification -->
+    <div class="toast" id="toast">
+        <i class="fas fa-check-circle"></i>
+        <span id="toastMessage">Action completed</span>
+    </div>
+
+    <script src="app.js"></script>
+    <script src="admin.js"></script>
+</body>
+</html>

@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sales Report - Arabian Bismi Mandi</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+    <header>
+        <div class="logo">
+            <img src="images/ABM_logo.jpg" alt="Arabian Bismi Mandi Logo" class="logo-img">
+            <h1>Arabian Bismi Mandi</h1>
+        </div>
+        <nav>
+            <a href="index.html"><i class="fas fa-home"></i> Order</a>
+            <a href="admin.html"><i class="fas fa-cog"></i> Menu</a>
+            <a href="reports.html" class="active"><i class="fas fa-chart-bar"></i> Sales</a>
+            <a href="expenses.html"><i class="fas fa-wallet"></i> Expenses</a>
+        </nav>
+    </header>
+
+    <main class="reports-main">
+        <section class="reports-section">
+            <div class="reports-header">
+                <h2><i class="fas fa-chart-line"></i> Monthly Sales Report</h2>
+                <div class="report-filters">
+                    <select id="monthFilter">
+                        <option value="0">January</option>
+                        <option value="1">February</option>
+                        <option value="2">March</option>
+                        <option value="3">April</option>
+                        <option value="4">May</option>
+                        <option value="5">June</option>
+                        <option value="6">July</option>
+                        <option value="7">August</option>
+                        <option value="8">September</option>
+                        <option value="9">October</option>
+                        <option value="10">November</option>
+                        <option value="11">December</option>
+                    </select>
+                    <select id="yearFilter">
+                        <!-- Years will be populated dynamically -->
+                    </select>
+                    <button class="filter-btn" id="applyFilterBtn">
+                        <i class="fas fa-filter"></i> Apply Filter
+                    </button>
+                    <button class="export-btn" id="exportReportBtn">
+                        <i class="fas fa-download"></i> Export CSV
+                    </button>
+                </div>
+            </div>
+
+            <div class="stats-cards">
+                <div class="stat-card">
+                    <div class="stat-icon sales">
+                        <i class="fas fa-rupee-sign"></i>
+                    </div>
+                    <div class="stat-info">
+                        <h3>Total Sales</h3>
+                        <p id="totalSales">₹0</p>
+                    </div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon orders">
+                        <i class="fas fa-receipt"></i>
+                    </div>
+                    <div class="stat-info">
+                        <h3>Total Orders</h3>
+                        <p id="totalOrders">0</p>
+                    </div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon average">
+                        <i class="fas fa-calculator"></i>
+                    </div>
+                    <div class="stat-info">
+                        <h3>Average Order</h3>
+                        <p id="avgOrder">₹0</p>
+                    </div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon items">
+                        <i class="fas fa-utensils"></i>
+                    </div>
+                    <div class="stat-info">
+                        <h3>Items Sold</h3>
+                        <p id="totalItems">0</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="charts-container">
+                <div class="chart-card">
+                    <h3><i class="fas fa-chart-bar"></i> Daily Sales</h3>
+                    <canvas id="dailySalesChart"></canvas>
+                </div>
+                <div class="chart-card">
+                    <h3><i class="fas fa-chart-pie"></i> Sales by Category</h3>
+                    <canvas id="categorySalesChart"></canvas>
+                </div>
+            </div>
+
+            <div class="sales-table-container">
+                <h3><i class="fas fa-list"></i> Sales History</h3>
+                <table class="sales-table">
+                    <thead>
+                        <tr>
+                            <th>Bill No</th>
+                            <th>Date</th>
+                            <th>Time</th>
+                            <th>Items</th>
+                            <th>Total</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody id="salesTableBody">
+                        <!-- Sales data will be loaded here -->
+                    </tbody>
+                </table>
+                <p class="no-data" id="noDataMessage" style="display: none;">
+                    <i class="fas fa-info-circle"></i> No sales data available for the selected period
+                </p>
+            </div>
+        </section>
+    </main>
+
+    <!-- Order Details Modal -->
+    <div class="modal" id="orderDetailsModal">
+        <div class="modal-content">
+            <span class="close-modal" id="closeOrderModal">&times;</span>
+            <h2><i class="fas fa-receipt"></i> Order Details</h2>
+            <div id="orderDetails">
+                <!-- Order details will be loaded here -->
+            </div>
+        </div>
+    </div>
+
+    <!-- Toast Notification -->
+    <div class="toast" id="toast">
+        <i class="fas fa-check-circle"></i>
+        <span id="toastMessage">Action completed</span>
+    </div>
+
+    <script src="app.js"></script>
+    <script src="reports.js"></script>
+</body>
+</html>
