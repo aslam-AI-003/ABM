@@ -16,11 +16,11 @@
             <h1>Arabian Bismi Mandi</h1>
         </div>
         <nav>
-            <a href="index.html"><i class="fas fa-home"></i> Order</a>
-            <a href="admin.html"><i class="fas fa-cog"></i> Menu</a>
-            <a href="reports.html" class="active"><i class="fas fa-chart-bar"></i> Sales</a>
-            <a href="expenses.html"><i class="fas fa-wallet"></i> Expenses</a>
-            <a href="#" onclick="ABMAuth.logout()" class="logout-link"><i class="fas fa-sign-out-alt"></i> Logout</a>
+            <a href="index.html"><i class="fas fa-home"></i> <span data-lang="navOrder">Order</span></a>
+            <a href="admin.html"><i class="fas fa-cog"></i> <span data-lang="navMenu">Menu</span></a>
+            <a href="reports.html" class="active"><i class="fas fa-chart-bar"></i> <span data-lang="navSales">Sales</span></a>
+            <a href="expenses.html"><i class="fas fa-wallet"></i> <span data-lang="navExpenses">Expenses</span></a>
+            <a href="#" onclick="ABMAuth.logout()" class="logout-link"><i class="fas fa-sign-out-alt"></i> <span data-lang="navLogout">Logout</span></a>
         </nav>
     </header>
 
@@ -146,6 +146,7 @@
         <span id="toastMessage">Action completed</span>
     </div>
 
+    <script src="lang.js"></script>
     <script src="auth.js"></script>
     <script>if (!ABMAuth.isLoggedIn()) window.location.href = 'login.html';</script>
     <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
@@ -153,5 +154,6 @@
     <script src="firebase-config.js"></script>
     <script src="app.js"></script>
     <script src="reports.js"></script>
+    <script>Lang.applyTranslations();</script>
 </body>
 </html>

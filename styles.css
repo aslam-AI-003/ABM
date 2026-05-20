@@ -1386,6 +1386,70 @@ main {
     background: rgba(231, 76, 60, 0.2) !important;
 }
 
+/* Language Selector */
+.language-selector {
+    margin-bottom: 1.5rem;
+    text-align: center;
+}
+
+.language-selector label {
+    display: block;
+    margin-bottom: 0.75rem;
+    color: #888;
+    font-size: 0.9rem;
+}
+
+.language-selector label i {
+    color: #f39c12;
+    margin-right: 0.5rem;
+}
+
+.lang-options {
+    display: flex;
+    gap: 0.75rem;
+    justify-content: center;
+}
+
+.lang-btn {
+    padding: 0.6rem 1.2rem;
+    border: 2px solid rgba(255, 255, 255, 0.15);
+    border-radius: 10px;
+    background: rgba(255, 255, 255, 0.05);
+    color: #888;
+    cursor: pointer;
+    font-size: 0.9rem;
+    font-family: 'Poppins', sans-serif;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.lang-btn:hover {
+    border-color: #FFD700;
+    color: #fff;
+}
+
+.lang-btn.active {
+    border-color: #FFD700;
+    background: rgba(255, 215, 0, 0.15);
+    color: #FFD700;
+    font-weight: 600;
+}
+
+.lang-flag {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    background: rgba(255, 215, 0, 0.2);
+    font-size: 0.8rem;
+    font-weight: 700;
+    color: #FFD700;
+}
+
 /* Responsive Styles */
 @media (max-width: 1024px) {
     main {
