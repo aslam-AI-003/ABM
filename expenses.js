@@ -1,23 +1,27 @@
-// Expenses Page - Daily Expense Tracking (CRUD Operations)
+// Expenses Page - Daily Expense Tracking (CRUD Operations with Firebase)
 
 let currentEditExpenseId = null;
 let deleteExpenseId = null;
 let selectedDate = new Date().toISOString().split('T')[0];
+let allExpenses = [];
 
-// Get expenses from localStorage
-function getExpenses() {
-    return JSON.parse(localStorage.getItem('expenses')) || [];
-}
-
-// Save expenses to localStorage
-function saveExpenses(expenses) {
-    localStorage.setItem('expenses', JSON.stringify(expenses));
+// Get expenses from Firebase (with localStorage fallback)
+async function loadExpenses() {
+    if (window.FireDB) {
+        try {
+            allExpenses = await FireDB.getExpenses();
+        } catch (e) {
+            allExpenses = JSON.parse(localStorage.getItem('expenses')) || [];
+        }
+    } else {
+        allExpenses = JSON.parse(localStorage.getItem('expenses')) || [];
+    }
+    return allExpenses;
 }
 
 // Get filtered expenses by date
 function getFilteredExpenses(date) {
-    const expenses = getExpenses();
-    return expenses.filter(exp => exp.date === date);
+    return allExpenses.filter(exp => exp.date === date);
 }
 
 // Calculate total for a date
@@ -99,8 +103,7 @@ function closeExpenseModal() {
 
 // Edit expense
 function editExpense(id) {
-    const expenses = getExpenses();
-    const expense = expenses.find(e => e.id === id);
+    const expense = allExpenses.find(e => e.id === id);
     
     if (!expense) return;
     
@@ -122,7 +125,7 @@ function editExpense(id) {
 }
 
 // Save expense (Create/Update)
-function saveExpense(e) {
+async function saveExpense(e) {
     e.preventDefault();
     
     const category = document.getElementById('expenseCategory').value;
@@ -134,18 +137,20 @@ function saveExpense(e) {
         return;
     }
     
-    const expenses = getExpenses();
-    
     if (currentEditExpenseId) {
         // Update existing expense
-        const index = expenses.findIndex(e => e.id === currentEditExpenseId);
+        const index = allExpenses.findIndex(e => e.id === currentEditExpenseId);
         if (index !== -1) {
-            expenses[index] = {
-                ...expenses[index],
+            allExpenses[index] = {
+                ...allExpenses[index],
                 category,
                 description,
                 amount
             };
+            // Save to Firebase
+            if (window.FireDB) {
+                await FireDB.updateExpense(allExpenses[index]);
+            }
             MandiApp.showToast('Expense updated successfully');
         }
     } else {
@@ -158,19 +163,24 @@ function saveExpense(e) {
             date: selectedDate,
             createdAt: new Date().toISOString()
         };
-        expenses.push(newExpense);
+        allExpenses.push(newExpense);
+        // Save to Firebase
+        if (window.FireDB) {
+            await FireDB.addExpense(newExpense);
+        }
         MandiApp.showToast('Expense added successfully');
     }
     
-    saveExpenses(expenses);
+    // Also save to localStorage as backup
+    localStorage.setItem('expenses', JSON.stringify(allExpenses));
+    
     renderExpenseTable();
     closeExpenseModal();
 }
 
 // Show delete confirmation
 function showDeleteExpenseConfirm(id) {
-    const expenses = getExpenses();
-    const expense = expenses.find(e => e.id === id);
+    const expense = allExpenses.find(e => e.id === id);
     
     if (!expense) return;
     
@@ -195,13 +205,19 @@ function closeDeleteExpenseModal() {
 }
 
 // Confirm delete
-function confirmDeleteExpense() {
+async function confirmDeleteExpense() {
     if (!deleteExpenseId) return;
     
-    let expenses = getExpenses();
-    expenses = expenses.filter(e => e.id !== deleteExpenseId);
+    allExpenses = allExpenses.filter(e => e.id !== deleteExpenseId);
     
-    saveExpenses(expenses);
+    // Delete from Firebase
+    if (window.FireDB) {
+        await FireDB.deleteExpense(deleteExpenseId);
+    }
+    
+    // Also save to localStorage as backup
+    localStorage.setItem('expenses', JSON.stringify(allExpenses));
+    
     MandiApp.showToast('Expense deleted successfully');
     
     renderExpenseTable();
@@ -209,7 +225,7 @@ function confirmDeleteExpense() {
 }
 
 // Handle date change
-function handleDateChange() {
+async function handleDateChange() {
     const dateFilter = document.getElementById('expenseDateFilter');
     if (dateFilter) {
         selectedDate = dateFilter.value;
@@ -218,7 +234,7 @@ function handleDateChange() {
 }
 
 // Initialize expenses page
-function initializeExpensesPage() {
+async function initializeExpensesPage() {
     // Set today's date
     const dateFilter = document.getElementById('expenseDateFilter');
     if (dateFilter) {
@@ -226,6 +242,8 @@ function initializeExpensesPage() {
         dateFilter.addEventListener('change', handleDateChange);
     }
     
+    // Load expenses from Firebase
+    await loadExpenses();
     renderExpenseTable();
     
     // Add expense button

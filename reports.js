@@ -37,6 +37,18 @@ function getFilteredSales(month, year) {
     });
 }
 
+// Load sales from Firebase first
+async function loadSalesFromFirebase() {
+    if (window.FireDB) {
+        try {
+            const sales = await FireDB.getSales();
+            localStorage.setItem('sales', JSON.stringify(sales));
+        } catch (e) {
+            console.log('Using localStorage sales data');
+        }
+    }
+}
+
 // Calculate statistics
 function calculateStats(sales) {
     const totalSales = sales.reduce((sum, sale) => sum + sale.total, 0);
@@ -343,8 +355,9 @@ function loadReportData() {
 }
 
 // Initialize reports page
-function initializeReportsPage() {
+async function initializeReportsPage() {
     initializeFilters();
+    await loadSalesFromFirebase();
     loadReportData();
     
     // Apply filter button

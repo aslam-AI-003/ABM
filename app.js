@@ -104,15 +104,32 @@ function initializeMenu() {
     }
 }
 
-// Get menu items from localStorage
+// Get menu items (from Firebase or localStorage)
 function getMenuItems() {
     initializeMenu();
     return JSON.parse(localStorage.getItem('menuItems')) || [];
 }
 
-// Save menu items to localStorage
+// Get menu items async from Firebase
+async function getMenuItemsAsync() {
+    if (window.FireDB) {
+        try {
+            const items = await FireDB.getMenuItems();
+            localStorage.setItem('menuItems', JSON.stringify(items));
+            return items;
+        } catch (e) {
+            return getMenuItems();
+        }
+    }
+    return getMenuItems();
+}
+
+// Save menu items (to both Firebase and localStorage)
 function saveMenuItems(items) {
     localStorage.setItem('menuItems', JSON.stringify(items));
+    if (window.FireDB) {
+        FireDB.saveAllMenuItems(items);
+    }
 }
 
 // Get cart from localStorage
@@ -130,9 +147,30 @@ function getSales() {
     return JSON.parse(localStorage.getItem('sales')) || [];
 }
 
-// Save sales to localStorage
+// Get sales async from Firebase
+async function getSalesAsync() {
+    if (window.FireDB) {
+        try {
+            const sales = await FireDB.getSales();
+            localStorage.setItem('sales', JSON.stringify(sales));
+            return sales;
+        } catch (e) {
+            return getSales();
+        }
+    }
+    return getSales();
+}
+
+// Save sales to localStorage and Firebase
 function saveSales(sales) {
     localStorage.setItem('sales', JSON.stringify(sales));
+}
+
+// Add a single sale to Firebase
+async function addSaleToFirebase(sale) {
+    if (window.FireDB) {
+        await FireDB.addSale(sale);
+    }
 }
 
 // Generate unique ID
@@ -416,6 +454,9 @@ function confirmPayment(method) {
     const sales = getSales();
     sales.push(sale);
     saveSales(sales);
+    
+    // Save to Firebase
+    addSaleToFirebase(sale);
     
     // Clear cart
     clearCart();
