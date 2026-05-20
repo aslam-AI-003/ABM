@@ -88,8 +88,20 @@
                     <input type="number" id="itemPrice" required placeholder="e.g., 1100" min="1">
                 </div>
                 <div class="form-group">
-                    <label for="itemImage"><i class="fas fa-image"></i> Image URL</label>
-                    <input type="url" id="itemImage" required placeholder="https://example.com/image.jpg">
+                    <label for="itemImage"><i class="fas fa-image"></i> Select Image</label>
+                    <select id="itemImage" required>
+                        <option value="">Choose an image</option>
+                        <option value="images/single_chicken.jpg">Single Chicken</option>
+                        <option value="images/half_chicken.webp">Half Chicken</option>
+                        <option value="images/chicken_mandi_full.webp">Chicken Mandi Full</option>
+                        <option value="images/mutton_single.png">Mutton Single</option>
+                        <option value="images/mutton_half.webp">Mutton Half</option>
+                        <option value="images/muttonfull.jpg">Mutton Full</option>
+                        <option value="images/beef_single.webp">Beef Single</option>
+                        <option value="images/beef_half.webp">Beef Half</option>
+                        <option value="images/beef_full.jpg">Beef Full</option>
+                        <option value="images/fish_mandi.webp">Fish Mandi</option>
+                    </select>
                 </div>
                 <div class="form-actions">
                     <button type="button" class="cancel-btn" id="cancelItemBtn">

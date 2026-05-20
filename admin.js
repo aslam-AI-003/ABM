@@ -89,7 +89,7 @@ function saveItem(e) {
     const category = document.getElementById('itemCategory').value;
     const size = document.getElementById('itemSize').value;
     const price = parseInt(document.getElementById('itemPrice').value);
-    const image = document.getElementById('itemImage').value.trim();
+    const image = document.getElementById('itemImage').value;
     
     if (!name || !category || !size || !price || !image) {
         MandiApp.showToast('Please fill all fields', true);
